@@ -1,60 +1,56 @@
 ﻿using System;
 using System.IO;
 
-namespace BirthdayFileApp
+public enum Months
 {
-    // Global enum for Months
-    public enum Months
+    Jan = 1,
+    Feb,
+    Mar,
+    Apr,
+    May,
+    Jun,
+    Jul,
+    Aug,
+    Sep,
+    Oct,
+    Nov,
+    Dec
+}
+
+class Program
+{
+    static void Main()
     {
-        Jan = 1,
-        Feb,
-        Mar,
-        Apr,
-        May,
-        Jun,
-        Jul,
-        Aug,
-        Sep,
-        Oct,
-        Nov,
-        Dec
-    }
+        // Birth info
+        int myBirthMonth = (int)Months.Apr;  // Example: April
+        int myBirthDay = 15;
+        int myBirthYear = 1990;
 
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            // Step 1: Create birth date variables
-            int myBirthMonth = (int)Months.Mar; // Example: March
-            int myBirthDay = 15;                // Example: Day of birth
-            int myBirthYear = 1995;             // Example: Year of birth
+        string myBirthDate = $"My birthday is on {myBirthMonth}/{myBirthDay}/{myBirthYear}.";
 
-            string myBirthDate = $"My birthday is on {myBirthMonth}/{myBirthDay}/{myBirthYear}.";
+        // File paths
+        string filePath = "myFile.txt";
+        string newFilePath = "newFile.txt";
 
-            // Step 2: Create a file and add text
-            string filePath = "myFile.txt";
-            File.WriteAllText(filePath, "This is the first line of text.\n");
+        // 1. Create a file and write text (overwrites if exists)
+        File.WriteAllText(filePath, "This is the first line of my file." + Environment.NewLine);
 
-            // Step 3: Read and print the file
-            string fileContent = File.ReadAllText(filePath);
-            Console.WriteLine("Initial file content:");
-            Console.WriteLine(fileContent);
+        Console.WriteLine("Contents of myFile.txt after writing:");
+        Console.WriteLine(File.ReadAllText(filePath));
 
-            // Step 4: Append text and display file
-            File.AppendAllText(filePath, "This is the appended line of text.\n");
-            string updatedContent = File.ReadAllText(filePath);
-            Console.WriteLine("After appending:");
-            Console.WriteLine(updatedContent);
+        // 2. Append text to file
+        File.AppendAllText(filePath, "This is an appended line." + Environment.NewLine);
 
-            // Step 5: Copy file to newFile.txt (overwrite if exists)
-            string newFilePath = "newFile.txt";
-            File.Copy(filePath, newFilePath, true);
+        Console.WriteLine("Contents of myFile.txt after appending:");
+        Console.WriteLine(File.ReadAllText(filePath));
 
-            // Step 6: Append birthday info to newFile and display
-            File.AppendAllText(newFilePath, myBirthDate + "\n");
-            string newFileContent = File.ReadAllText(newFilePath);
-            Console.WriteLine("Final new file content:");
-            Console.WriteLine(newFileContent);
-        }
+        // 3. Copy file (replace if exists)
+        File.Copy(filePath, newFilePath, true);
+
+        // 4. Append birthday string to new file
+        File.AppendAllText(newFilePath, myBirthDate + Environment.NewLine);
+
+        Console.WriteLine("Contents of newFile.txt after appending birth date:");
+        Console.WriteLine(File.ReadAllText(newFilePath));
     }
 }
